@@ -2,33 +2,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Amitbaviskar/Docker-Jenkins-CI-pipeline.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                sh 'whoami'
-                sh 'docker ps'              // quick check
-                sh 'docker build -t myapp .'
+                sh 'id'
+                sh 'sudo docker ps || docker ps'
+                sh 'sudo docker build -t myapp . || docker build -t myapp .'
             }
         }
 
         stage('Run Container') {
             steps {
-                sh 'docker run --rm myapp'
+                sh 'sudo docker run --rm myapp || docker run --rm myapp'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build Success ✅'
-        }
-        failure {
-            echo 'Build Failed ❌'
         }
     }
 }
