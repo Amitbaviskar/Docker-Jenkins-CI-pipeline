@@ -10,6 +10,8 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
+                sh 'whoami'
+                sh 'docker ps'              // quick check
                 sh 'docker build -t myapp .'
             }
         }
