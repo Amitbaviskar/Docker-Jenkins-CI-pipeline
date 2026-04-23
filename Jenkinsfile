@@ -4,20 +4,29 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Amitbaviskar/mavenprojectci.git'
+                git 'https://github.com/Amitbaviskar/Docker-Jenkins-CI-pipeline.git'
             }
         }
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                sh 'mvn clean compile'
+                sh 'docker build -t myapp .'
             }
         }
 
-        stage('Test') {
+        stage('Run Container') {
             steps {
-                echo 'Pipeline working ✅'
+                sh 'docker run --rm myapp'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build Success ✅'
+        }
+        failure {
+            echo 'Build Failed ❌'
         }
     }
 }
